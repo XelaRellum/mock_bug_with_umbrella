@@ -22,22 +22,21 @@ defmodule FileExTest do
 
   describe "write_and_verify/1" do
     test "successful operation", mocks do
-      with_mock(FileWrapper, [
+      with_mock(FileWrapper,
         write!: mocks.write!,
         read!: mocks.read!
-      ]) do
+      ) do
         assert FileEx.write_and_verify("some path", "som content") == true
       end
     end
 
     test "unsuccessful read", mocks do
-      with_mock(File, [
+      with_mock(FileWrapper,
         write!: mocks.write!,
         read!: fn _path -> "" end
-      ]) do
+      ) do
         assert FileEx.write_and_verify("some path", "som content") == false
       end
     end
-
   end
 end
